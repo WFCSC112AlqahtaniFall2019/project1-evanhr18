@@ -6,52 +6,62 @@ using namespace std;
 
 int main() {
 
-    int row = 3;
+    int row = 3;            // declaring variables
     int col = 3;
     int row1;
-    int row2;
     int col1;
-    int col2;
     int guessRow;
     int guessCol;
     int points = 0;
+    int guesses = 1;
     vector <int>  vec(col, 0);
     vector <vector<int>> matrix(row,vec);
 
-    srand (time(NULL));         // randomly generating two battleship locations
+    srand (time(NULL));         // randomly generating battleship location
 
     row1 = rand() % 3;
     col1 = rand() % 3;
-    row2 = rand() % 3;
-    col2 = rand() % 3;
     matrix.at(row1).at(col1) = 1;
-    matrix.at(row2).at(col2) = 1;
 
-    for (int i = 0; i < matrix.size(); i++) {
-        for (int j = 0; j < matrix.at(i).size(); j++) {
-            cout << "Matrix["<<i<<"]["<<j<<"]=" << matrix.at(i).at(j) <<endl;
-        }
-    }
+    cout << "Welcome to Battleship!" << endl;           // game instructions
+    cout << "In order to win, you must guess the location on the 3 by 3 grid where a battleship is located" << endl;
+    cout << "Guess by inputting a row number [0-2] and a column number [0-2] between on each turn (ex. 0 2)" << endl << endl;
 
-    cout << endl << "Welcome to Battleship!" << endl;           // game instructions
-    cout << "In order to win, you must guess the two locations on the 3 by 3 grid where a battleship is located" << endl;
-    cout << "Guess by inputting a row number and a column number on each turn (ex. 1 2)" << endl << endl;
+   while (points < 1) {             // game loop
 
-    // printing game board
-    cout << "___|___|___" << endl;
-    cout << "___|___|___" << endl;
-    cout << "___|___|___" << endl << endl;
+       cout << "Guess number " << guesses << endl;      // guessing
+       cout << "What is your guess?" << endl;
+       cin >> guessRow >> guessCol;
 
-    cout << "What is your guess?" << endl;          //guessing
-    cin >> guessRow >> guessCol;
+       if (matrix.at(guessRow).at(guessCol) == 1) {
+           cout << "You guessed correctly!" << endl;
+           matrix.at(guessRow).at(guessCol) = 3;
+           points = points + 1;
+       } else {
+           cout << "Oh no! You guessed wrong!" << endl;
+           matrix.at(guessRow).at(guessCol) = 2;
+       }
+       guesses = guesses + 1;
 
-    if (matrix.at(guessRow).at(guessCol) == 1) {
-        cout << "You guessed correctly!" << endl;
-        points = points + 1;
-    }
-    else {
-        cout << "Oh no! You guessed wrong!" << endl;
-    }
+       // printing game board
+       for (int i = 0; i < matrix.size(); i++) {
+           for (int j = 0; j < matrix.size(); j++) {
+               if (matrix.at(i).at(j) == 2) {
+                   cout << "| 0 |";
+               }
+               else if (matrix.at(i).at(j) == 3) {
+                   cout << "| X |";
+               }
+               else {
+                   cout << "|   |";
+               }
+           }
+           cout << endl;
+       }
+       cout << endl;
+   }
+
+   cout << "Congrats! You sunk my battleship!" << "(" << guesses << " guesses)"; // end game
 
 
 
